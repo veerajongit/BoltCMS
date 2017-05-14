@@ -20,4 +20,7 @@ function helloworld(){<br>
 4. Thats it. Now go to /localhost/ourserverspath/ in your favorite browser and you will see<br>
 "Hi, this is a simple hello world application."<br>
 
+<b>Links:</b><br>
+ Login Page (/)<br>
+ Blank Page (/blank)
 
