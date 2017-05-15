@@ -28,6 +28,7 @@ class Controller {
 
 
         //Some common defaults
+        $this->version = "0.0.1";
         $this->head = '
         <link rel="shortcut icon" href="http:/' . ROOT . 'favicon.ico" type="image/x-icon" />
         <!-- Tell the browser to be responsive to screen width -->
@@ -50,6 +51,8 @@ class Controller {
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu:400" rel="stylesheet">
+        <style>body{font-family: \'Ubuntu\', sans-serif;}</style>
         ';
 
         $this->foot = '

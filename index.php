@@ -8,6 +8,24 @@
 include_once "routes.php";
 include_once "user_controllers.php";
 
+function sanitize_output($buffer) {
+    $search = array(
+        '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
+        '/[^\S ]+\</s',     // strip whitespaces before tags, except space
+        '/(\s)+/s',         // shorten multiple whitespace sequences
+        '/<!--(.|\s)*?-->/' // Remove HTML comments
+    );
+    $replace = array(
+        '>',
+        '<',
+        '\\1',
+        ''
+    );
+    $buffer = preg_replace($search, $replace, $buffer);
+    return $buffer;
+}
+
+
 $newrouter = new router();
 $controller = new UserControllers();
 
@@ -37,8 +55,8 @@ foreach ($newrouter->routes as $route) {
                     }
                 }
             }
-        }else{
-            if($route[0] ==  $_GET["path"]){
+        } else {
+            if ($route[0] == $_GET["path"]) {
                 $output = file_get_contents("Views/" . $route[2] . ".html");
 
                 if ($route[1] != "") {
@@ -67,6 +85,6 @@ if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT 
     if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT != "YES") {
         echo "Page Error";
     } else {
-        echo $finaloutput;
+        echo sanitize_output($finaloutput);
     }
 }

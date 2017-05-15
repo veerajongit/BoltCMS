@@ -109,4 +109,4 @@ define("USEPDOMYSQL", "NO");
 define("USEPDOSQLITE", "NO");
 
 //Enable Pagenot Found
-define("PAGENOTFOUNDREDIRECT", "NO"); //SET LINK NAME IN index.php on line no
+define("PAGENOTFOUNDREDIRECT", "YES"); //SET LINK NAME IN index.php on line no

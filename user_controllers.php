@@ -26,15 +26,16 @@ class UserControllers extends Controller {
 
         $this->title = "Title";
 
-        $this->body="Start creating your amazing application!";
+        $this->body = "Start creating your amazing application!";
         $this->footer = "Footer";
     }
 
-    function notification(){
+    function notification() {
         $this->notificationcountlabel = "";
         $this->notificationcount = 0;
     }
-    function breadcrumbs(){
+
+    function breadcrumbs() {
         $this->breadcrumb = "
         <ol class=\"breadcrumb\">
                 <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Home</a></li>
@@ -43,7 +44,11 @@ class UserControllers extends Controller {
         ";
     }
 
-    function login(){
+    function login() {
         $this->session->destroyall();
+    }
+
+    function error() {
+
     }
 }
