@@ -99,7 +99,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 //SET Root location of project
 if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     //WHEN RUNNING ON LOCALHOST
-    define("ROOT", "/localhost/AdminPanelBolt/");
+    define("ROOT", "/localhost/BoltCMS/");
 } else {
     //WHEN RUNNING ON SERVER
     define("ROOT", "/");

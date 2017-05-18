@@ -6,7 +6,6 @@
  * Time: 8:57 AM
  */
 include_once "routes.php";
-include_once "user_controllers.php";
 
 function sanitize_output($buffer) {
     $search = array(
@@ -34,43 +33,38 @@ if (!isset($_GET["path"])) {
 }
 
 ob_start();
-
+function setview($arr){
+    if (file_exists("Views/" . $arr . ".html")) {
+        return $output = file_get_contents("Views/" . $arr . ".html");
+    } else {
+        echo "The file \"Views/\" . $arr . \".html\" does not exist";
+        exit;
+    }
+}
 $presenturlcount = count(explode('/', $_GET["path"]));
+$output = "";
 foreach ($newrouter->routes as $route) {
     $routerurlcount = count(explode('/', $route[0]));
     if ($presenturlcount == $routerurlcount) {
         if (substr($route[0], -1) == "*") {
             $match = "/" . str_replace('/*', '\/(.*)', $route[0]) . "/";
             if (preg_match($match, $_GET["path"])) {
-                $output = file_get_contents("Views/" . $route[2] . ".html");
-
-                if ($route[1] != "") {
-                    $controller->{$route[1]}();
-                    $controllerarray = get_object_vars($controller);
-
-                    foreach ($controllerarray as $ckey => $cvar) {
-                        if (!is_array($cvar) && !is_object($cvar)) {
-                            $output = str_replace("%" . $ckey . "%", $cvar, $output);
-                        }
-                    }
-                }
+                $route[1];
+                $output = setview($route[2]);
             }
         } else {
             if ($route[0] == $_GET["path"]) {
-                $output = file_get_contents("Views/" . $route[2] . ".html");
-
-                if ($route[1] != "") {
-                    $controller->{$route[1]}();
-                    $controllerarray = get_object_vars($controller);
-
-                    foreach ($controllerarray as $ckey => $cvar) {
-                        if (!is_array($cvar) && !is_object($cvar)) {
-                            $output = str_replace("%" . $ckey . "%", $cvar, $output);
-                        }
-                    }
-                }
+                $route[1];
+                $output = setview($route[2]);
             }
         }
+    }
+}
+
+$controllerarray = get_object_vars($newrouter->controller);
+foreach ($controllerarray as $ckey => $cvar) {
+    if (!is_array($cvar) && !is_object($cvar)) {
+        $output = str_replace("%" . $ckey . "%", $cvar, $output);
     }
 }
 if (isset($output)) {
