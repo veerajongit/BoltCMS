@@ -62,6 +62,7 @@ foreach ($newrouter->routes as $route) {
 }
 
 $controllerarray = get_object_vars($newrouter->controller);
+
 foreach ($controllerarray as $ckey => $cvar) {
     if (!is_array($cvar) && !is_object($cvar)) {
         $output = str_replace("%" . $ckey . "%", $cvar, $output);

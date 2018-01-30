@@ -9,8 +9,9 @@
 include_once "model.php";
 
 class UserModel extends Model{
-
     //Define all the functions to access data here
+    function __construct() {
 
+    }
 
 }
