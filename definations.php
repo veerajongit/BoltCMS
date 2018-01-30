@@ -83,8 +83,8 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     //WHEN RUNNING ON LOCALHOST
     define("SERVERNAME", "localhost");
     define("USERNAME", "root");
-    define("PASSWORD", "");
-    define("DBNAME", "localserverdb");
+    define("PASSWORD", "root");
+    define("DBNAME", "boltCMS");
     define("SQLITEDBNAME", "localsqlitedb.sqlite");
 } else {
     //WHEN RUNNING ON SERVER
@@ -105,7 +105,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     define("ROOT", "/");
 }
 
-define("USEPDOMYSQL", "NO");
+define("USEPDOMYSQL", "YES");
 define("USEPDOSQLITE", "NO");
 
 //Enable Pagenot Found

@@ -16,8 +16,8 @@ class router {
         $this->routes = array();
         //Define all your routes here
         //array_push($this->routes, array(route_name, controllerfunction_name, viewfunction_name));
-        array_push($this->routes, array("blank", $this->controller->blank(), "blank"));
-        array_push($this->routes, array("", $this->controller->login(), "login"));
+        array_push($this->routes, array("blank", 'blank', "blank"));
+        array_push($this->routes, array("", 'login', "login"));
 
         if(PAGENOTFOUNDREDIRECT == "YES"){ array_push($this->routes, array("404error", "error", "error")); }
 

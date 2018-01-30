@@ -6,6 +6,7 @@
  * Date: 20/04/17
  * Time: 9:17 AM
  */
+
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
 
@@ -136,4 +137,98 @@ class Controller {
     </header>
         ";
     }
+
+
+    function uploadpicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
+        $result = array();
+        if (!file_exists($target_dir)) {
+            //Create target dir if not exists
+            if (is_writable($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            } else {
+                $result["err"] = "Error creating directory " . $target_dir;
+                $result["filename"] = "";
+                return $result;
+            }
+        }
+
+        $target_dir = $target_dir . "/";
+
+        $temp = explode(".", $this->file->{$filename}["name"]);
+        if ($renamefile == "yes") {
+            $target_file = $target_dir . round(microtime(true)) . '.' . end($temp);
+        } else {
+            $target_file = $target_dir . basename($this->file->{$filename}["name"]);
+        }
+        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($this->file->{$filename}["tmp_name"]);
+        if ($check !== false) {
+        } else {
+            $result["err"] = "File is not an image";
+            $result["filename"] = "";
+            return $result;
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            $result["err"] = "File already exists";
+            $result["filename"] = "";
+            return $result;
+        }
+
+        // Check file size
+        if ($this->file->{$filename}["size"] > $minfilesize) {
+            $result["err"] = "File is too large";
+            $result["filename"] = "";
+            return $result;
+        }
+
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            $result["err"] = "Only JPG, JPEG, PNG and GIF allowed";
+            $result["filename"] = "";
+            return $result;
+        }
+
+        if (is_writable($target_dir)) {
+            if (move_uploaded_file($this->file->{$filename}["tmp_name"], $target_file)) {
+                $result["err"] = null;
+                $result["filename"] = $target_file;
+                return $result;
+            } else {
+                $result["err"] = "There was an error uploading this file";
+                $result["filename"] = "";
+                return $result;
+            }
+        } else {
+            $result["err"] = $target_dir . " is not writtable.";
+            $result["filename"] = "";
+            return $result;
+        }
+    }
 }
+
+
+class hashing {
+    function generateHashWithSalt($password) {
+        $intermediateSalt = md5(uniqid(rand(), true));
+        $salt = substr($intermediateSalt, 0, MAX_LENGTH);
+        return hash("sha256", $password . $salt);
+    }
+
+    function generateHash($password) {
+        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+            $salt = '$2y$11$' . substr(md5(uniqid(rand(), true)), 0, 22);
+            return crypt($password, $salt);
+        }
+    }
+
+    function checkhash($user_input, $hashed_password) {
+        return hash_equals($hashed_password, crypt($user_input, $hashed_password));
+    }
+}
+

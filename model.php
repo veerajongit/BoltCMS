@@ -51,7 +51,7 @@ class Model {
             $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
             if ($result) {
-                $a[] = $stmt->fetchAll();
+                $a = $stmt->fetchAll();
             }
             $arr["result"] = "success";
             $arr["data"] = $a;

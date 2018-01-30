@@ -10,9 +10,20 @@ include_once "controller.php";
 
 class UserControllers extends Controller {
 
+    function __construct() {
+        parent::__construct();
+    }
+
     //Define all your controllers here
 
+    function checksession() {
+        if (!isset($this->session->userdetails['idusers'])) {
+            header("location:http:/" . ROOT);
+        }
+    }
+
     function blank() {
+        $this->checksession();
         $this->notification();
         $this->breadcrumbs();
         $this->userimage = 'http:/' . ROOT . "Views/AdminLTE/dist/img/user2-160x160.jpg";
@@ -45,6 +56,24 @@ class UserControllers extends Controller {
     }
 
     function login() {
+        $this->loginerror = '';
+        if (isset($this->post->email) && isset($this->post->password)) {
+            $result = $this->model->getuserbyemailid($this->post->email);
+            if (count($result) == 0) {
+                $this->loginerror = "Invalid Email Id";
+            } else {
+                $hash = new hashing();
+                if (!$hash->checkhash($this->post->password, $result[0]['password'])) {
+                    //Password Mismatched
+                    $this->loginerror = "Password does not match";
+                } else {
+                    $this->loginerror = "Login success";
+                    $this->session->setsessionkey('userdetails', $result[0]);
+                    header("location:http:/" . ROOT . "blank");
+                    exit;
+                }
+            }
+        }
         $this->session->destroyall();
     }
 
