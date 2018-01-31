@@ -18,7 +18,9 @@ class router {
         array_push($this->routes, array("", 'login', "login", "UserControllers"));
         array_push($this->routes, array("trial", 'trial', "trial", "TrialController"));
 
-        if(PAGENOTFOUNDREDIRECT == "YES"){ array_push($this->routes, array("404error", "error", "error")); }
+        if (PAGENOTFOUNDREDIRECT == "YES") {
+            array_push($this->routes, array("404error", "error", "error", "UserControllers"));
+        }
 
         //End of all routes definitions
         $this->checkduplicate($this->routes);
