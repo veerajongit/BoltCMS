@@ -6,8 +6,6 @@
  * Time: 8:39 PM
  */
 
-include_once "controller.php";
-
 class UserControllers extends Controller {
 
     function __construct() {
@@ -15,13 +13,6 @@ class UserControllers extends Controller {
     }
 
     //Define all your controllers here
-
-    function checksession() {
-        if (!isset($this->session->userdetails['idusers'])) {
-            header("location:http:/" . ROOT);
-        }
-    }
-
     function blank() {
         $this->checksession();
         $this->notification();

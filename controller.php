@@ -210,6 +210,12 @@ class Controller {
             return $result;
         }
     }
+
+    function checksession() {
+        if (!isset($this->session->userdetails['idusers'])) {
+            header("location:http:/" . ROOT);
+        }
+    }
 }
 
 
