@@ -21,6 +21,7 @@ class Controller {
         $this->get = new Get();
         $this->post = new Post();
         $this->request = new Request();
+        $this->file = new Files();
 
         include_once "user_model.php";
         $this->model = new UserModel();
